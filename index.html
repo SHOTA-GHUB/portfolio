@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio | Shota</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f7f6f2;
+      --surface: #ffffff;
+      --ink: #1a1a18;
+      --muted: #7a7a72;
+      --accent: #3d5aff;
+      --accent-light: #eceffe;
+      --border: #e4e3dc;
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 40px;
+      background: rgba(247,246,242,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.1rem;
+      color: var(--ink); text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.85rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 40px; max-width: 960px; margin: 0 auto; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding-top: 120px;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--accent-light); color: var(--accent);
+      font-size: 0.78rem; font-weight: 500;
+      padding: 5px 14px; border-radius: 99px;
+      margin-bottom: 28px;
+      letter-spacing: 0.05em;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .hero-name {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.25s forwards;
+    }
+    .hero-name span { color: var(--accent); }
+    .hero-sub {
+      max-width: 520px;
+      color: var(--muted); font-size: 1rem; font-weight: 300;
+      line-height: 1.8; margin-bottom: 40px;
+      opacity: 0; animation: fadeUp 0.6s 0.4s forwards;
+    }
+    .hero-cta {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.6s 0.55s forwards;
+    }
+    .btn {
+      padding: 12px 28px; border-radius: 99px;
+      font-size: 0.9rem; font-weight: 500;
+      text-decoration: none; cursor: pointer;
+      border: none; transition: all 0.2s;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #2b46e0; transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 40px; height: 3px;
+      background: var(--accent); border-radius: 2px;
+      margin-bottom: 20px;
+    }
+
+    /* ── SECTION HEADING ── */
+    .sec-label {
+      font-size: 0.75rem; font-weight: 500;
+      color: var(--accent); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .sec-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 700; letter-spacing: -0.02em;
+      margin-bottom: 48px;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+      align-items: start;
+    }
+    .about-text p { color: var(--muted); margin-bottom: 14px; }
+    .about-text strong { color: var(--ink); }
+    .about-cards { display: flex; flex-direction: column; gap: 14px; }
+    .about-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+    }
+    .about-card-label {
+      font-size: 0.72rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .about-card-value {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem; font-weight: 700;
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: transparent; }
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .skill-chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 12px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-chip:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .skill-icon { font-size: 1.4rem; }
+    .skill-name { font-weight: 500; font-size: 0.9rem; }
+    .skill-level {
+      font-size: 0.72rem; color: var(--muted); margin-top: 2px;
+    }
+    .level-bar {
+      width: 60px; height: 4px;
+      background: var(--border); border-radius: 2px;
+      margin-top: 6px; overflow: hidden;
+    }
+    .level-fill {
+      height: 100%; background: var(--accent); border-radius: 2px;
+      transition: width 1s ease;
+    }
+
+    /* ── WORKS ── */
+    .works-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .work-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .work-card:hover {
+      box-shadow: 0 12px 40px rgba(61,90,255,0.1);
+      transform: translateY(-4px);
+    }
+    .work-thumb {
+      width: 100%; height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+    .work-thumb.c1 { background: linear-gradient(135deg, #eceffe 0%, #d6dbff 100%); }
+    .work-thumb.c2 { background: linear-gradient(135deg, #fef0e7 0%, #fddbb8 100%); }
+    .work-thumb.c3 { background: linear-gradient(135deg, #e8faf0 0%, #b8f0d0 100%); }
+    .work-body { padding: 20px 22px 24px; }
+    .work-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .work-tag {
+      font-size: 0.7rem; color: var(--accent);
+      background: var(--accent-light);
+      padding: 2px 10px; border-radius: 99px; font-weight: 500;
+    }
+    .work-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem; font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .work-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+    .work-links { margin-top: 16px; display: flex; gap: 10px; }
+    .work-link {
+      font-size: 0.82rem; color: var(--accent);
+      text-decoration: none; font-weight: 500;
+      border: 1px solid var(--accent-light);
+      padding: 5px 14px; border-radius: 99px;
+      transition: background 0.2s;
+    }
+    .work-link:hover { background: var(--accent-light); }
+
+    /* ── CONTACT ── */
+    /* #contact {
+      text-align: center;
+      padding-bottom: 140px;
+    }
+    .contact-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 60px 40px;
+      max-width: 560px; margin: 0 auto;
+    }
+    .contact-box p {
+      color: var(--muted); font-size: 0.95rem; margin-bottom: 28px;
+    }
+    .contact-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .contact-link {
+      display: flex; align-items: center; gap: 7px;
+      padding: 10px 20px; border-radius: 99px;
+      border: 1.5px solid var(--border);
+      color: var(--ink); text-decoration: none;
+      font-size: 0.88rem; font-weight: 500;
+      transition: all 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); } */
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 28px;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 0.8rem;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 14px 20px; }
+      .nav-links { gap: 16px; }
+      section { padding: 80px 20px; }
+      .about-grid { grid-template-columns: 1fr; gap: 36px; }
+      .contact-box { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">TOP.</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#works">Works</a></li>
+    <!-- <li><a href="#contact">Contact</a></li> -->
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <span class="hero-tag">🌱 Junior Engineer — Currently Learning</span>
+  <h1 class="hero-name"><span>Shota</span> PortFolio.</h1>
+  <p class="hero-sub">
+    2025年7月~11月まで職業訓練校に通い<br>
+    Java+Pythonコースを受講していました。<br>
+    「動くものを作る楽しさ」を原動力に<br>
+    毎日コードを書いています。
+  </p>
+  <div class="hero-cta">
+    <a href="#works" class="btn btn-primary">制作物を見る</a>
+    <!-- <a href="#contact" class="btn btn-outline">連絡する</a> -->
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="sec-label reveal">About</p>
+  <h2 class="sec-title reveal">私について</h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>はじめまして。<strong>八尾 翔太</strong>と申します。大阪府在住です。</p>
+      <p>前職はDJと電気工事士。DJ業務では照明オペレーターも担当しており、専用ソフトのUI上で照明の動きや色をプログラムで組んでいました。この時の経験がプログラミングに興味を持ったきっかけです。</p>
+      <p>2025年7月から11月まで職業訓練校のJava+Pythonコースに通い、JavaをメインにHTML・CSS・JavaScript・Python・SQLを学びました。訓練校ではフレームワークまでは扱わなかったため、独学でReactに挑戦。ToDoアプリを作りながらコンポーネントの考え方を身につけ、PyScriptでシューティングゲームも作りました。</p>
+      <p>電気工事士として「物理的な配線」を扱い、照明で「論理的な動きを設計する」経験を積んできた自分にとって、コードを書くことはとても自然に感じています。チームの一員としてWebサービス開発に関わりたいというのが今の目標です。</p>
+    </div>
+    <div class="about-cards reveal">
+      <div class="about-card">
+        <div class="about-card-label">Name</div>
+        <div class="about-card-value">八尾 翔太</div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-label">Location</div>
+        <div class="about-card-value">大阪府</div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-label">Likes</div>
+        <div class="about-card-value">餃子とビール</div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-label">Learning Since</div>
+        <div class="about-card-value">２０２５年５月〜</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="sec-label reveal">Skills</p>
+  <h2 class="sec-title reveal">技術スタック</h2>
+  <div class="skills-grid reveal">
+    <div class="skill-chip">
+      <div class="skill-icon">🌐</div>
+      <div class="skill-info">
+        <div class="skill-name">HTML</div>
+        <div class="skill-level">基礎〜中級</div>
+        <div class="level-bar"><div class="level-fill" style="width:70%"></div></div>
+      </div>
+    </div>
+    <div class="skill-chip">
+      <div class="skill-icon">🎨</div>
+      <div class="skill-info">
+        <div class="skill-name">CSS</div>
+        <div class="skill-level">基礎〜中級</div>
+        <div class="level-bar"><div class="level-fill" style="width:65%"></div></div>
+      </div>
+    </div>
+    <div class="skill-chip">
+      <div class="skill-icon">⚡</div>
+      <div class="skill-info">
+        <div class="skill-name">JavaScript</div>
+        <div class="skill-level">基礎</div>
+        <div class="level-bar"><div class="level-fill" style="width:30%"></div></div>
+      </div>
+    </div>
+    <div class="skill-chip">
+      <div class="skill-icon">🐙</div>
+      <div class="skill-info">
+        <div class="skill-name">Git / GitHub</div>
+        <div class="skill-level">基礎</div>
+        <div class="level-bar"><div class="level-fill" style="width:30%"></div></div>
+      </div>
+    </div>
+    <div class="skill-chip">
+      <div class="skill-icon">🐍</div>
+      <div class="skill-info">
+        <div class="skill-name">Python</div>
+        <div class="skill-level">基礎</div>
+        <div class="level-bar"><div class="level-fill" style="width:30%"></div></div>
+      </div>
+    </div>
+    <div class="skill-chip">
+      <div class="skill-icon">☕️</div>
+      <div class="skill-info">
+        <div class="skill-name">Java</div>
+        <div class="skill-level">基礎〜中級</div>
+        <div class="level-bar"><div class="level-fill" style="width:50%"></div></div>
+      </div>
+    </div>
+    <div class="skill-chip">
+      <div class="skill-icon">⚛️</div>
+      <div class="skill-info">
+        <div class="skill-name">React</div>
+        <div class="skill-level">基礎</div>
+        <div class="level-bar"><div class="level-fill" style="width:30%"></div></div>
+      </div>
+    </div>
+    <div class="skill-chip">
+      <div class="skill-icon">🐍</div>
+      <div class="skill-info">
+        <div class="skill-name">PyScript</div>
+        <div class="skill-level">基礎</div>
+        <div class="level-bar"><div class="level-fill" style="width:30%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section id="works">
+  <p class="sec-label reveal">Works</p>
+  <h2 class="sec-title reveal">制作物</h2>
+  <div class="works-grid reveal">
+    <div class="work-card">
+      <div class="work-thumb c1">📝</div>
+      <div class="work-body">
+        <div class="work-tags"><span class="work-tag">React</span><span class="work-tag">JavaScript</span></div>
+        <div class="work-title">Todoアプリ</div>
+        <p class="work-desc">React, JavaScriptを使って作成したTodoアプリ。追加・削除・完了チェック機能を実装。</p>
+        <div class="work-links">
+          <a href="https://github.com/SHOTA-GHUB/yao-todo" class="work-link">GitHub →</a>
+          <a href="https://yao-todo.vercel.app/" class="work-link">Demo →</a>
+        </div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-thumb c2">🔫</div>
+      <div class="work-body">
+        <div class="work-tags"><span class="work-tag">PyScript</span><span class="work-tag">Python</span></div>
+        <div class="work-title">シューティングゲーム</div>
+        <p class="work-desc">PyScript/Pythonを使って作ったシューティングゲーム。localStorageでスコア保存対応。</p>
+        <div class="work-links">
+          <a href="https://github.com/SHOTA-GHUB/kuma_gekitai" class="work-link">GitHub →</a>
+          <a href="https://shota-ghub.github.io/kuma_gekitai/" class="work-link">Demo →</a>
+        </div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-thumb c3">📚</div>
+      <div class="work-body">
+        <div class="work-tags"><span class="work-tag">SpringBoot</span><span class="work-tag">Java</span></div>
+        <div class="work-title">学習記録アプリ</div>
+        <p class="work-desc">Java/SpringBootで学習記録アプリを作成中。MySQLでデータ永続化する予定。</p>
+        <!-- <div class="work-links">
+          <a href="#" class="work-link">GitHub →</a>
+          <a href="#" class="work-link">Demo →</a>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT
+<section id="contact">
+  <p class="sec-label reveal">Contact</p>
+  <h2 class="sec-title reveal">お問い合わせ</h2>
+  <div class="contact-box reveal">
+    <p>ご連絡はこちらからお願いいたします。<br>GitHubも公開しています。</p>
+    <div class="contact-links">
+      <a href="mailto:your@email.com" class="contact-link">✉️ メール</a>
+      <a href="https://github.com/SHOTA-GHUB" target="_blank" class="contact-link">🐙 GitHub</a>
+    </div>
+  </div>
+</section> -->
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Shota. Built with HTML / CSS / JS.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
